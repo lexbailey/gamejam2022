@@ -16,10 +16,10 @@ uint8_t tiles[NTILES*32] = {
     0xFF, 0xFF, 0xFF, 0xFF, 
 };
 
-#define MAPW (50)
-#define MAPH (50)
+#define MAPW (32)
+#define MAPH (32)
 #define MAPSZ (MAPH * MAPW)
-#define XY(x,y) ((x)+((y)*MAPW))
+#define XY(x,y) ((x)+((y)<<5))
 #define TILE(n) (tiles + ((n)<<5))
 
 uint8_t maze[MAPSZ];
@@ -27,47 +27,17 @@ uint8_t maze[MAPSZ];
 uint16_t px = 5;
 uint16_t py = 5;
 
-/*
 void render_maze(){
-    volatile uint8_t* bitmap = (uint8_t *)(0x4000);
-    for (uint16_t y = 0; y <= 9; y++){
-        uint16_t my = y + py - 5;
-        for (uint16_t x = 0; x <= 9; x++){
-            uint8_t *t = TILE(maze[XY(x+px-5,my)]);
-            uint16_t sy = CALC_Y(y<<4);
-            uint16_t by = sy+(x<<1);
-            uint16_t *bp = (uint16_t *)(bitmap+by);
-            uint16_t *tp = (uint16_t *)(t);
-            for (uint16_t i = 0; i<= 28; i+=4){
-                *bp = *tp;
-                bp += 16;
-                tp += 1;
-
-                *bp = *tp;
-                tp += 1;
-                bp += 112;
-            }
-        }
-    }
-}
-*/
-
-void render_maze(){
-    volatile uint8_t* bitmap = (uint8_t *)(0x4000);
+    uint16_t tl_x = px - 5;
+    uint16_t tl_y = py - 5;
     for (uint16_t xy = 0; xy <= 63; xy++){
-        uint16_t my = (xy>>3) + py - 5;
-        uint8_t *t = TILE(maze[XY((xy&0x7)+px-5,my)]);
-        uint16_t sy = CALC_Y((xy&0xFFF8)<<1);
-        uint16_t by = sy+((xy&0x7)<<1);
-        uint16_t *bp = (uint16_t *)(bitmap+by);
-        uint16_t *tp = (uint16_t *)(t);
-        for (uint16_t i = 0; i<= 28; i+=4){
-            *bp = *tp;
+        uint16_t x = xy&0x7;
+        uint16_t *tp = (uint16_t *)TILE(maze[XY(x+tl_x,(xy>>3) + tl_y)]);
+        uint16_t *bp = (uint16_t *)(0x4000+((((xy&0x18)<<3) | ((xy&0x20)<<6)) | (x<<1)));
+        for (uint16_t i = 0; i<= 7; i++){
+            *bp = *tp++;
             bp += 16;
-            tp += 1;
-
-            *bp = *tp;
-            tp += 1;
+            *bp = *tp++;
             bp += 112;
         }
     }
@@ -77,11 +47,11 @@ void test_maze(){
     for (int i =0; i<= MAPSZ-1; i++){
         maze[i] = 0;
     }
-    for (int i =0; i<= 9; i++){
+    for (int i =0; i<= 7; i++){
         maze[XY(0,i)] = 1;
         maze[XY(i,0)] = 1;
-        maze[XY(9,i)] = 1;
-        maze[XY(i,9)] = 1;
+        maze[XY(7,i)] = 1;
+        maze[XY(i,7)] = 1;
     }
 }
 
