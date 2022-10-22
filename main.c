@@ -169,7 +169,7 @@ void init_maze(){
     attrs[ATTR(7,6)] = player_attr;
     attrs[ATTR(6,7)] = player_attr;
     attrs[ATTR(6,6)] = player_attr;
-    render_text( TXT_AT "\x11\x00" TXT_INK "\x07" TXT_PAPER "\x00" TXT_BRIGHT "\x01" "Foooooooooo", 12);
+    //render_text( TXT_AT "\x11\x00" TXT_INK "\x07" TXT_PAPER "\x00" TXT_BRIGHT "\x01" "Foooooooooo", 12);
 }
 
 void init_battle(){
@@ -221,6 +221,7 @@ void to_mode(int newmode){
 int main(){
     init_all();
     to_mode(MODE_TITLE);
+    to_mode(MODE_MAZE);
     while (1){
         switch (mode) {
             case MODE_TITLE:
