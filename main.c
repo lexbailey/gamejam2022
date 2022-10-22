@@ -74,8 +74,10 @@ uint8_t maze[MAPSZ] = {
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 };
 
-uint8_t px = 22;
-uint8_t py = 28;
+#define PLAYER_START_X (22)
+#define PLAYER_START_Y (28)
+uint8_t px;
+uint8_t py;
 
 void render_maze(){
     uint8_t tl_x = px - 3;
@@ -96,36 +98,54 @@ void render_maze(){
 
 //open_channel = 0x1601
 //print_str 0x203c
-
-void render_text() __naked {
+void render_text(char *text, uint16_t len) __naked {
     asm(
-        "push de\n"
         "push af\n"
         "ld a,2\n"
         "call $1601\n"
-        "ld de,text\n"
-        "push bc\n"
-        "ld bc,4\n"
-        "pop bc\n"
         "pop af\n"
-        "pop de\n"
+        "push iy\n"
+        "ld iy,4\n"
+        "add iy,sp\n"
+        "ld c,(iy)\n"
+        "inc iy\n"
+        "ld b,(iy)\n"
+        "inc iy\n"
+        "ld e, (iy)\n"
+        "inc iy\n"
+        "ld d, (iy)\n"
+        "pop iy\n"
+        "call $203c\n"
         "ret\n"
-        "text:\n"
-        "defm \"abcd\""
     );
 }
 
 #define ATTR(x,y) ((((uint16_t)(y))<<5)+((uint16_t)(x)))
 
-void init_ui(){
+void init_all(){
+    // black border
+    asm(
+        "push af\n"
+        "ld a,1\n"
+        "call 8859\n"
+        "pop af\n"
+    );
+}
+
+#define TXT_INK "\x10"
+#define TXT_PAPER "\x11"
+#define TXT_BRIGHT "\x13"
+#define TXT_AT "\x16"
+
+void init_maze(){
     uint8_t player_attr = 0x06;
     volatile uint8_t* attrs = (uint8_t *)(0x5800);
-    for (int i = 16; i<= (16+(32*24)); i+= 32){
-        attrs[i] = 0;
+    for (int i = 16; i<= (16+(32*16)); i+= 32){
+        attrs[i] = 1<<3;
     }
 
     for (int i = 16*32; i< (16*32)+16; i+= 1){
-        attrs[i] = 0;
+        attrs[i] = 1<<3;
     }
 
     for (int y = 0; y<= 15; y++){
@@ -149,9 +169,10 @@ void init_ui(){
     attrs[ATTR(7,6)] = player_attr;
     attrs[ATTR(6,7)] = player_attr;
     attrs[ATTR(6,6)] = player_attr;
+    render_text( TXT_AT "\x11\x00" TXT_INK "\x07" TXT_PAPER "\x00" TXT_BRIGHT "\x01" "Foooooooooo", 12);
+}
 
-    render_text();
-
+void init_battle(){
 }
 
 uint16_t get_dir() __naked {
@@ -178,35 +199,57 @@ uint16_t get_dir() __naked {
     );
 }
 
+#define MODE_TITLE (0)
+#define MODE_MAZE (1)
+#define MODE_BATTLE (3)
+int mode = MODE_TITLE;
+
+void to_mode(int newmode){
+    mode = newmode;
+    if (mode == MODE_TITLE){
+        px = PLAYER_START_X;
+        py = PLAYER_START_Y;
+    }
+    if (mode == MODE_MAZE) {
+        init_maze();
+    }
+    if (mode == MODE_BATTLE) {
+        init_battle();
+    }
+}
+
 int main(){
-    // black border
-    asm(
-        "push af\n"
-        "ld a,0\n"
-        "call 8859\n"
-        "pop af\n"
-    );
-    init_ui();
+    init_all();
+    to_mode(MODE_TITLE);
     while (1){
-        render_maze();
-        uint16_t dir = get_dir()>>8;
-        uint8_t lx = px;
-        uint8_t ly = py;
-        if (dir == 0xE){
-            px ++;
-        }
-        if (dir == 0xD){
-            px --;
-        }
-        if (dir == 0x7){
-            py ++;
-        }
-        if (dir == 0xB){
-            py --;
-        }
-        if (maze[XY(px, py)] != 0) {
-            px = lx;
-            py = ly;
+        switch (mode) {
+            case MODE_TITLE:
+                render_text( TXT_AT "\17\0" TXT_INK "\7" TXT_PAPER "\0" TXT_BRIGHT "\1" "Monster's Maze", 23);
+                break;
+            case MODE_MAZE:
+                render_maze();
+                uint16_t dir = get_dir()>>8;
+                uint8_t lx = px;
+                uint8_t ly = py;
+                if (dir == 0xE){
+                    px ++;
+                }
+                if (dir == 0xD){
+                    px --;
+                }
+                if (dir == 0x7){
+                    py ++;
+                }
+                if (dir == 0xB){
+                    py --;
+                }
+                if (maze[XY(px, py)] != 0) {
+                    px = lx;
+                    py = ly;
+                }
+                break;
+            case MODE_BATTLE:
+                break;
         }
     }
 }
