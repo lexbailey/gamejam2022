@@ -3,6 +3,9 @@
 #define CALC_Y(y) ((((y) & 0x7) << 8) | (((y) & 0x38) << 2) | (((y) & 0xC0) << 5))
 #define NTILES (5)
 
+uint8_t titlescreen[] = {
+    #include "titlescreen"
+};
 
 uint8_t tiles[NTILES*32] = {
     0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
@@ -51,30 +54,30 @@ uint8_t maze[MAPSZ] = {
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-    1,1,1,1,_,_,_,_,_,_,_,H,_,_,_,_,_,H,_,_,_,_,H,_,_,_,_,1,1,1,1,1,
+    1,1,1,1,_,_,_,_,_,_,_,H,_,_,_,_,_,H,_,_,_,_,H,3,_,_,_,1,1,1,1,1,
     1,1,1,1,H,H,H,H,_,H,H,H,_,H,H,H,_,H,H,H,H,_,H,_,H,H,_,1,1,1,1,1,
-    1,1,1,1,_,_,_,_,_,_,_,_,_,_,_,H,_,_,_,_,_,_,H,_,_,H,_,1,1,1,1,1,
+    1,1,1,1,_,_,_,_,_,_,2,_,_,_,_,H,2,_,_,_,_,_,H,_,_,H,_,1,1,1,1,1,
     1,1,1,1,H,H,H,H,H,H,_,H,H,H,H,H,_,H,H,H,H,_,H,H,H,H,_,1,1,1,1,1,
-    1,1,1,1,_,_,_,_,_,_,_,H,_,_,_,_,_,H,_,_,_,_,_,_,_,_,_,1,1,1,1,1,
+    1,1,1,1,_,2,_,_,_,_,_,H,_,_,_,_,_,H,_,_,2,_,_,_,_,_,_,1,1,1,1,1,
     1,1,1,1,_,H,H,H,H,H,H,H,_,H,H,H,_,H,_,H,H,H,H,H,H,_,_,1,1,1,1,1,
     1,1,1,1,_,_,_,_,_,_,_,H,_,_,_,H,_,H,_,_,_,_,_,_,_,_,_,1,1,1,1,1,
     1,1,1,1,_,H,H,H,H,H,H,H,H,H,H,H,H,H,H,H,H,H,H,H,H,H,H,1,1,1,1,1,
-    1,1,1,1,_,_,_,_,_,H,_,_,_,_,_,_,_,H,_,_,_,H,_,_,_,_,_,1,1,1,1,1,
+    1,1,1,1,2,_,_,_,_,H,2,_,_,_,_,_,_,H,_,_,_,H,_,2,_,_,_,1,1,1,1,1,
     1,1,1,1,_,H,_,_,_,H,_,H,H,H,H,H,H,H,_,_,_,H,_,H,H,H,_,1,1,1,1,1,
     1,1,1,1,_,H,_,_,_,H,_,_,_,_,_,_,_,H,_,_,_,H,_,_,_,H,_,1,1,1,1,1,
     1,1,1,1,_,H,_,H,H,H,_,H,H,H,H,H,H,H,_,H,_,H,H,H,H,H,_,1,1,1,1,1,
-    1,1,1,1,_,H,_,H,_,H,_,H,_,_,_,_,_,H,_,H,_,H,_,_,_,_,_,1,1,1,1,1,
-    1,1,1,1,_,H,_,H,_,H,_,H,_,H,_,H,_,H,_,H,H,H,_,_,_,H,H,1,1,1,1,1,
+    1,1,1,1,_,H,_,H,_,H,_,H,_,_,2,_,_,H,2,H,_,H,_,_,_,2,_,1,1,1,1,1,
+    1,1,1,1,_,H,_,H,_,H,2,H,_,H,_,H,_,H,_,H,H,H,_,_,_,H,H,1,1,1,1,1,
     1,1,1,1,_,_,_,H,_,H,_,_,_,H,_,H,_,H,_,_,_,H,_,_,_,H,_,1,1,1,1,1,
     1,1,1,1,_,H,_,H,_,H,_,_,_,H,_,H,H,H,_,H,_,H,_,H,_,H,_,1,1,1,1,1,
-    1,1,1,1,_,H,_,_,_,_,_,_,_,H,_,_,_,H,_,H,_,_,_,H,_,H,_,1,1,1,1,1,
-    1,1,1,1,H,H,_,H,H,H,H,H,H,H,H,H,H,H,_,H,_,H,H,H,_,_,_,1,1,1,1,1,
+    1,1,1,1,_,H,2,_,_,_,_,_,_,H,_,_,_,H,_,H,_,_,_,H,_,H,_,1,1,1,1,1,
+    1,1,1,1,H,H,_,H,H,H,H,H,H,H,H,H,H,H,_,H,2,H,H,H,_,_,_,1,1,1,1,1,
     1,1,1,1,_,_,_,H,_,H,_,_,_,_,_,_,_,H,_,H,_,H,_,H,_,H,_,1,1,1,1,1,
     1,1,1,1,_,H,H,H,_,H,_,_,_,H,_,_,_,H,_,H,_,H,_,H,_,H,_,1,1,1,1,1,
-    1,1,1,1,_,_,_,_,_,H,_,_,_,H,_,_,_,H,_,H,_,H,_,_,_,H,_,1,1,1,1,1,
-    1,1,1,1,H,H,H,H,_,H,H,H,_,H,H,H,H,H,_,H,_,H,H,H,H,H,_,1,1,1,1,1,
-    1,1,1,1,_,_,_,H,_,_,_,_,_,H,_,_,_,H,_,H,_,H,_,2,3,4,_,1,1,1,1,1,
-    1,1,1,1,H,H,_,H,_,H,H,H,_,H,H,H,_,H,_,H,_,H,_,H,_,H,_,1,1,1,1,1,
+    1,1,1,1,_,_,_,_,2,H,_,_,_,H,_,_,_,H,_,H,2,H,_,2,_,H,_,1,1,1,1,1,
+    1,1,1,1,H,H,H,H,_,H,H,H,_,H,H,H,H,H,2,H,_,H,H,H,H,H,_,1,1,1,1,1,
+    1,1,1,1,_,_,_,H,_,_,_,_,_,H,_,_,_,H,_,H,_,H,_,2,_,_,_,1,1,1,1,1,
+    1,1,1,1,H,H,_,H,_,H,H,H,2,H,H,H,2,H,_,H,_,H,_,H,_,H,_,1,1,1,1,1,
     1,1,1,1,_,_,_,_,_,H,_,_,_,_,_,_,_,_,_,H,_,H,_,H,_,H,_,1,1,1,1,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -195,8 +198,12 @@ void sprite_attr(uint16_t x, uint16_t y, uint8_t attr){
 
 void init_maze(){
     uint8_t player_attr = 0x06;
+    volatile uint8_t* bitmap = (uint8_t *)(0x4000);
     volatile uint8_t* attrs = (uint8_t *)(0x5800);
     //screen is mostly black
+    for (int i = 0; i<= 32*192; i++){
+        bitmap[i] = 0;
+    }
     for (int i = 0; i<= (32*24); i+= 1){
         attrs[i] = 1;
     }
@@ -219,7 +226,7 @@ void init_maze(){
     // render player
     sprite(player_sprite, 3,3);
     sprite_attr(3,3,player_attr);
-    format_text(17, 0, 0, 7, 1, "         Find the exit.", 14);
+    format_text(17, 0, 0, 7, 1, "         Find the ghost.", 15);
 }
 
 #define DIR_RIGHT (0xE)
@@ -251,9 +258,26 @@ uint16_t get_dir() __naked {
     );
 }
 
+uint16_t get_enter() __naked {
+    asm(
+        "push bc\n\t"
+        "push af\n\t"
+        "ld bc,$bffe\n\t"
+        "in a,(c)\n\t"
+        "and 1\n\t"
+        "ld h,a\n\t"
+        "pop af\n\t"
+        "pop bc\n\t"
+        "ret\n\t"
+    );
+}
+
 #define MODE_TITLE (0)
 #define MODE_MAZE (1)
 #define MODE_BATTLE (2)
+#define MODE_WON (3)
+#define MODE_GAMEOVER (4)
+
 uint8_t mode = MODE_TITLE;
 
 #define ENEMY_MIN (2)
@@ -270,6 +294,7 @@ uint8_t enemy_hp;
 
 uint8_t bats[7];
 
+uint8_t cur_en_hp = 10;
 
 void init_battle(){
     volatile uint8_t* bitmap = (uint8_t *)(0x4000);
@@ -297,7 +322,8 @@ void init_battle(){
         attrs[i+31] = (2<<3)|2;
     }
 
-    enemy_hp = 10;
+    enemy_hp = cur_en_hp;
+    cur_en_hp += 1;
 
     format_text( 19,0,1,7,1, "         HP:                             ", 32);
     format_text( 19,3,2,2,0, "                                      ", 20);
@@ -323,14 +349,26 @@ void init_battle(){
 }
 
 void to_mode(uint8_t newmode){
+    volatile uint8_t* bitmap = (uint8_t *)(0x4000);
+    volatile uint8_t* attrs = (uint8_t *)(0x5800);
+    //screen is mostly black
+    for (int i = 0; i<= 32*192; i++){
+        bitmap[i] = 0;
+    }
+    for (int i = 0; i<= (32*24); i+= 1){
+        attrs[i] = 1;
+    }
     mode = newmode;
     if (mode == MODE_TITLE){
         px = PLAYER_START_X;
         py = PLAYER_START_Y;
         player_hp = 20;
+        memcpy(0x4000, titlescreen, (32*192)+(32*24));
+        format_text( 20,0,1,7,1, "           press enter to start          ", 32);
     }
     if (mode == MODE_MAZE) {
         init_maze();
+        render_maze();
     }
     if (mode == MODE_BATTLE) {
         init_battle();
@@ -353,7 +391,8 @@ void render_battle(){
         unsprite(obpx, obpy);
         sprite(player_sprite, bpx, bpy);
         sprite_attr(bpx, bpy, 6);
-        uint16_t time = 5000;
+        static uint16_t battime = 5000; // same bat place :^)
+        uint16_t time = battime;
         while (time != 0){
             time --;
         }
@@ -375,7 +414,11 @@ void render_battle(){
                     enemy_hp --;
                     if (enemy_hp <= 0){
                         battle_won();
+                        battime -= 200;
                     }
+                }
+                if (player_hp == 0){
+                    to_mode(MODE_GAMEOVER);
                 }
             }
         }
@@ -386,12 +429,14 @@ void render_battle(){
 int main(){
     init_all();
     to_mode(MODE_TITLE);
-    to_mode(MODE_MAZE);
+    //to_mode(MODE_MAZE);
     uint16_t dir;
     while (1){
         if (mode == MODE_TITLE){
-            //render_text( TXT_AT "\17\0" TXT_INK "\7" TXT_PAPER "\0" TXT_BRIGHT "\1" "Monster's Maze", 23);
-            asm("nop");
+            dir = get_dir()>>8;
+            if ((get_enter()>>8) == 0){
+                to_mode(MODE_MAZE);
+            }
         }
         if (mode == MODE_MAZE){
             render_maze();
@@ -411,7 +456,10 @@ int main(){
                 py --;
             }
             uint8_t newtile = maze[XY(px, py)];
-            if (newtile >= ENEMY_MIN && newtile <= ENEMY_MAX) { // encounter
+            if (newtile == ENEMY_GHOST){
+                to_mode(MODE_WON);
+            }
+            else if (newtile >= ENEMY_MIN && newtile <= ENEMY_MAX) { // encounter
                 cur_encounter = newtile;
                 enc_x = px;
                 enc_y = py;
@@ -443,6 +491,22 @@ int main(){
             if (bpy > 7) {bpy = 7;}
             if (bpx < 1) {bpx = 1;}
             if (bpy < 1) {bpy = 1;}
+
+        }
+        if (mode == MODE_WON){
+            format_text( 10,0,1,7,1, "         WINNER!!!!!!                    ", 32);
+            format_text( 11,0,1,7,1, "                        WINNER!!!!!      ", 32);
+            format_text( 18,0,1,7,1, "           press enter to reset          ", 32);
+            if ((get_enter()>>8) == 0){
+                to_mode(MODE_TITLE);
+            }
+        }
+        if (mode == MODE_GAMEOVER){
+            format_text( 10,0,1,7,1, "         Game over                       ", 32);
+            format_text( 18,0,1,7,1, "           press enter to reset          ", 32);
+            if ((get_enter()>>8) == 0){
+                to_mode(MODE_TITLE);
+            }
         }
     }
     while(1){asm("nop");}
